@@ -1,0 +1,47 @@
+import { describeTablePlugin } from './table-plugin-suite.ts'
+import { Config } from '../src/config.ts'
+import { parseMaterial, runCheck, SPEC } from '../src/model.ts'
+import { buildView } from '../src/view.ts'
+import { inject, name, resolvePackageFile, TOOL_NAME } from '../src/index.ts'
+
+describeTablePlugin({
+  name,
+  inject,
+  TOOL_NAME,
+  resolvePackageFile,
+  Config,
+  rulesFile: 'rules/lc-doc-check.yaml',
+  parseMaterial,
+  runCheck,
+  buildView,
+  columnNames: SPEC.columns,
+  samples: {
+    good: {
+          "lcNo": "LC2026-0018",
+          "lcType": "不可撤销即期信用证",
+          "applicant": "某某进口商",
+          "beneficiary": "某某出口有限公司",
+          "issuingBank": "某某银行",
+          "amount": "250000",
+          "currency": "USD",
+          "expiryAt": "2026-04-10",
+          "rows": [
+                {
+                      "序号": "1",
+                      "单据种类": "商业发票",
+                      "信用证要求": "商业发票一式三份，注明信用证号与合同号",
+                      "提交情况": "已提交一式三份，已注明信用证号与合同号",
+                      "份数": "3",
+                      "出具人": "受益人",
+                      "收货人": "开证申请人",
+                      "交单日期": "2026-03-20",
+                      "最迟装运日": "2026-03-15",
+                      "有效期": "2026-04-10",
+                      "不符点": "无不符点",
+                      "处理状态": "已审单"
+                }
+          ]
+    },
+    unknownColumn: { rows: [{ 备注: '甲' }] },
+  },
+})

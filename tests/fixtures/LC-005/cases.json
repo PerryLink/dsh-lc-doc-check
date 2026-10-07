@@ -1,0 +1,31 @@
+{
+  "ruleId": "LC-005",
+  "configure": {
+    "LC-005": {
+      "values": [
+        "无不符点",
+        "有不符点",
+        "已接受",
+        "已拒付"
+      ]
+    }
+  },
+  "pairs": [
+    {
+      "name": "expected-state",
+      "material": "LC-005-compliant.json",
+      "expect": {
+        "ruleId": "LC-005",
+        "count": 0
+      }
+    },
+    {
+      "name": "difference-present",
+      "material": "LC-005-unsafe.json",
+      "expect": {
+        "ruleId": "LC-005",
+        "count": 1
+      }
+    }
+  ]
+}

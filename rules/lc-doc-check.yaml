@@ -1,0 +1,206 @@
+# 信用证单据条款核对 规则库
+#
+# 规则数据与代码分离：替换本文件即可切换规则集版本，无需改动 TypeScript。
+#
+# 条款引用纪律（由 shared/ruleset.ts 强制校验）：
+#   - 每条规则必须写全 document / number / clause / excerpt / kind / source，
+#     且 excerpt 必须是逐字摘录，不得改写。
+#   - kind: direct                       条款直接规定了所检查的要求
+#   - kind: derived-from-principle       条款未直接规定，仅能由原则性条款推论（severity 最多 warn）
+#   - kind: institutional-configuration 阈值出自本机构配置（severity 最多 info）
+#
+# ⚠️⚠️ 本规则库的诚实说明：**excerpt 一律不是引文。**
+#   本插件核对的是"信用证交单核对表"的**齐备与期限自洽**：
+#     单据种类与信用证要求是否填写、提交情况是否记录、份数是否可解析、
+#     交单日期是否可解析且不晚于有效期、装运日期是否不晚于最迟装运日、
+#     处理状态是否在册、序号与单据种类是否重复、是否残留模板占位符。
+#   其规范载体是**国际商会《跟单信用证统一惯例》（UCP600）**与**《关于审核跟单信用证项下
+#   单据的国际标准银行实务》（ISBP）**，以及各信用证自身的条款。
+#   **核查未取得这些出版物的逐字条文**，故每条 excerpt 如实写明，kind 降为 derived-from-principle（封顶 warn）。
+#
+# ⚠️⚠️ 另一条**必须保留**的边界：**本插件绝不判定交单是否构成不符、
+#   银行是否应当付款、单据是否满足信用证要求**。
+#   那需要银行按 UCP600 与信用证条款审单，并考虑不符点的处理与接受。
+#   → **本插件不解读信用证条款**：它只核对台账自己写的"要求"与"提交情况"两栏是否都填了，
+#     **不做两者的实质比对**（那需要理解条款与单据内容）。
+#   → **"是否不符"栏由使用方填写**，本插件只核对它是否在册，不核对它填得对不对。
+#   → **单证种类清单（docTypes）与处理状态清单（statuses）都出厂为空**。
+
+plugin: dsh-lc-doc-check
+version: "2026.1"
+
+rules:
+  - id: LC-001
+    title: 每条款都应写明单据种类与信用证要求
+    severity: warn
+    basis:
+      document: 《跟单信用证统一惯例》（UCP600）
+      number: 国际商会第 600 号出版物（本次未取得条文）
+      clause: 关于单据条款的条款（本次未取得条号）
+      excerpt: 该条文本次未取得：核查未获得该文件的逐字原文，本规则库不伪造引文。
+      kind: derived-from-principle
+      source: https://iccwbo.org/ （UCP600 为国际商会出版物，需购买；此为其发布机构首页，无公开正文可链接）
+    params:
+        check:
+          kind: presenceAny
+          fields: ["docType","requirement"]
+          fix: 补填单据种类与信用证要求；本条只核对是否填写，不判断条款含义
+    note: >-
+      核对表的**最小单位**是"信用证对某类单据提出了什么要求"：缺其一就无法展开审单。
+      本次未取得明文条号，故封顶 warn。
+      ⚠️ 本条只核对"至少填了一个"，**不解读信用证条款的含义** ——
+      条款的实质理解需要 UCP600 与 ISBP 的专业能力，也是银行审单人员的判断。
+
+  - id: LC-002
+    title: 每条款都应记录提交情况
+    severity: warn
+    basis:
+      document: 《跟单信用证统一惯例》（UCP600）
+      number: 国际商会第 600 号出版物（本次未取得条文）
+      clause: 关于交单的条款（本次未取得条号）
+      excerpt: 该条文本次未取得：核查未获得该文件的逐字原文，本规则库不伪造引文。
+      kind: derived-from-principle
+      source: https://iccwbo.org/ （UCP600 为国际商会出版物，需购买；此为其发布机构首页，无公开正文可链接）
+    params:
+        check:
+          kind: presence
+          field: presented
+          fix: 补填提交情况；本条只核对是否记录，不做与要求的实质比对
+    note: >-
+      只写要求、不记提交情况的核对表，等于把审单留在了执行人的记忆里。
+      本次未取得明文条号，故封顶 warn。
+      ⚠️ **本条只核对提交情况栏是否填写**，**不把它与"信用证要求"栏做实质比对** ——
+      那需要理解条款与单据内容，本插件做不到，也不声称做得到。
+
+  - id: LC-003
+    title: 交单日期应可解析且不晚于信用证有效期
+    severity: warn
+    basis:
+      document: 《跟单信用证统一惯例》（UCP600）
+      number: 国际商会第 600 号出版物（本次未取得条文）
+      clause: 关于交单期限与有效期的条款（本次未取得条号）
+      excerpt: 该条文本次未取得：核查未获得该文件的逐字原文，本规则库不伪造引文。
+      kind: derived-from-principle
+      source: https://iccwbo.org/ （UCP600 为国际商会出版物，需购买；此为其发布机构首页，无公开正文可链接）
+    params:
+        check:
+          kind: date
+          field: presentedAt
+          notAfterField: expiryAt
+          fix: 交单日期不应晚于信用证有效期；核对两个日期的填写
+    note: >-
+      "在有效期内交单"是信用证项下取得付款的**时间前提**。
+      本次未取得明文条号，故封顶 warn。
+      本条只在台账同时提供交单日期与有效期时执行（有效期可在表头，引擎会先查行再查表头）；
+      同一天视为不晚于。
+      ⚠️ **本条不核对 UCP600 关于交单期限的其他规则**（例如装运日后若干天内交单的要求），
+      也不核对"有效期地点"等条件 —— 那些需要 UCP600 的逐字条文，本规则库未取得。
+
+  - id: LC-004
+    title: 装运日期应不晚于最迟装运日
+    severity: warn
+    basis:
+      document: 《跟单信用证统一惯例》（UCP600）
+      number: 国际商会第 600 号出版物（本次未取得条文）
+      clause: 关于装运期限的条款（本次未取得条号）
+      excerpt: 该条文本次未取得：核查未获得该文件的逐字原文，本规则库不伪造引文。
+      kind: derived-from-principle
+      source: https://iccwbo.org/ （UCP600 为国际商会出版物，需购买；此为其发布机构首页，无公开正文可链接）
+    params:
+        check:
+          kind: date
+          field: latestShipment
+          notAfterField: expiryAt
+          fix: 最迟装运日不应晚于信用证有效期；核对两个日期的填写
+    note: >-
+      最迟装运日与有效期是信用证的**两个关键日期**：装运日晚于最迟装运日、
+      或交单晚于有效期，都会产生不符点。本次未取得明文条号，故封顶 warn。
+      ⚠️ **本条只核对"最迟装运日不晚于有效期"这一条内部一致性** ——
+      它**不核对实际装运日期**（台账里通常没有单独的装运日期栏），
+      也**不判断实际装运是否满足要求**。若本机构台账有实际装运日栏，
+      把 field 改为该栏、notAfterField 改为 latestShipment 另加一条即可。
+
+  - id: LC-005
+    title: 不符点标记应使用本机构口径的取值
+    severity: info
+    basis:
+      document: 《跟单信用证统一惯例》（UCP600）
+      number: 国际商会第 600 号出版物（本次未取得条文）
+      clause: 关于不符单据处理的条款（本次未取得条号）
+      excerpt: 该条文本次未取得：核查未获得该文件的逐字原文，本规则库不伪造引文。
+      kind: derived-from-principle
+      source: https://iccwbo.org/ （UCP600 为国际商会出版物，需购买；此为其发布机构首页，无公开正文可链接）
+    params:
+        check:
+          kind: enum
+          field: discrepancy
+          values: []
+    note: >-
+      values 出厂为空，表示**未配置**，本条进 skipped。
+      依据说明：不符点标记的口径（例如「无不符点」「有不符点」「已接受」「已拒付」「待申请人接受」）
+      随**本机构或本开证行的处理惯例**变化，本插件**不硬编码任何取值清单**。
+      ⚠️ **本条只核对所填值是否在册，绝不判断是否真的构成不符点** ——
+      那需要银行按 UCP600 与信用证条款审单，是银行的判断。
+
+  - id: LC-006
+    title: 核对表应声明信用证号与受益人
+    severity: warn
+    basis:
+      document: 《跟单信用证统一惯例》（UCP600）
+      number: 国际商会第 600 号出版物（本次未取得条文）
+      clause: 关于信用证基本要素的条款（本次未取得条号）
+      excerpt: 该条文本次未取得：核查未获得该文件的逐字原文，本规则库不伪造引文。
+      kind: derived-from-principle
+      source: https://iccwbo.org/ （UCP600 为国际商会出版物，需购买；此为其发布机构首页，无公开正文可链接）
+    params:
+        check:
+          kind: headerPresence
+          fields: ["lcNo","beneficiary"]
+    note: >-
+      核对表若不写明信用证号与受益人，交单情况就无法与具体的信用证对应。
+      本次未取得明文条号，故封顶 warn。
+      配置项 lcNo 对应信用证号，beneficiary 对应受益人。
+      若本机构表式还在表头记录金额与币制，把它们加进 fields 即可。
+
+  - id: LC-007
+    title: 币制应使用三位字母代码
+    severity: warn
+    basis:
+      document: 《表示货币的代码》
+      number: GB/T 12406—2022（表示货币的代码；2022-12-30 发布并实施；全部代替 GB/T 12406—2008（该版名称为「表示货币和资金的代码」）——注意旧版名称含"资金"；修改采用 ISO 4217:2015，非等同采用；条号本次未取得）
+      clause: 关于货币代码的规定（本次未取得条号）
+      excerpt: 该条文本次未取得：核查未获得该文件的逐字原文，本规则库不伪造引文。
+      kind: derived-from-principle
+      source: https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=196111BC23AC8BDA0BE2C44F2C32F6CF
+    params:
+        check:
+          kind: pattern
+          field: currency
+          pattern: ^[A-Z]{3}$
+          fix: 币制应写成三位大写字母代码（如 USD、EUR、CNY）
+    note: >-
+      信用证金额的币别只有写成统一的三位字母代码，才能与其他单据比对。
+      这一层是纯格式判断；本次未取得明文条号，故封顶 warn。
+      本条**不判断币别选择是否正确** —— 那取决于信用证条款本身。
+
+  - id: LC-008
+    title: 单据种类不应在核对表内重复
+    severity: warn
+    basis:
+      document: 《跟单信用证统一惯例》（UCP600）
+      number: 国际商会第 600 号出版物（本次未取得条文）
+      clause: 关于单据条款的条款（本次未取得条号）
+      excerpt: 该条文本次未取得：核查未获得该文件的逐字原文，本规则库不伪造引文。
+      kind: derived-from-principle
+      source: https://iccwbo.org/ （UCP600 为国际商会出版物，需购买；此为其发布机构首页，无公开正文可链接）
+    params:
+        check:
+          kind: unique
+          field: docType
+    note: >-
+      同一类单据在信用证条款中出现两次，通常意味着条款被拆分登记，
+      也可能意味着重复登记。本次未取得明文条号，故封顶 warn。
+      ⚠️ 本条**命中需要人工确认**：信用证对同一单据提出多项要求是常见的，
+      此时应在条款号栏区分，而不是简单删除。
+
+disabled: []
