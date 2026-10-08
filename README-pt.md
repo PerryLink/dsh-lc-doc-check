@@ -1,4 +1,24 @@
-# dsh-lc-doc-check
+# dsh-lc-doc-check — Completude da lista de apresentação de documentos de um crédito documentário e coerência interna das suas datas
+
+`dsh-lc-doc-check` lê uma lista de apresentação de documentos de um crédito documentário —o cabeçalho do crédito mais uma linha por cláusula— e verifica a completude e a coerência interna dessa lista: se cada cláusula regista o tipo de documento e a exigência do crédito, se a apresentação está registada, se a data de apresentação não é posterior ao vencimento, se a data-limite de embarque não é posterior ao vencimento, se a marca de discrepância vem do vocabulário que você configura, se o número do crédito e o beneficiário são declarados, se a moeda está escrita como código de três letras e se não há tipos de documento repetidos.
+
+## O que ele responde
+
+| Você pergunta | O que ele responde |
+|---|---|
+| Uma cláusula deixa vazios o tipo de documento e a exigência do crédito. Isso é reportado? | Sim. `LC-001` reporta essa cláusula, porque toda cláusula que traga a coluna `docType` ou `requirement` tem de ter pelo menos uma das duas preenchida. Verifica que haja texto, não o que a cláusula significa: não interpreta as condições do crédito, por isso uma exigência mal escrita passa. |
+| A exigência está escrita, mas a coluna da apresentação está vazia. | `LC-002` exige `presented` em toda cláusula que traga a coluna e reporta a linha em que está vazia. Verifica que a apresentação fique registada, não o que diz: não compara essa célula com a célula da exigência, porque compará-las obriga a ler as cláusulas e os documentos. |
+| Que datas compara realmente e o que acontece a uma data que não é analisável? | Dois pares, e só dois: `LC-003` compara `presentedAt` com `expiryAt`, e `LC-004` compara `latestShipment` com `expiryAt`; o vencimento pode estar no cabeçalho, porque o leitor procura primeiro na linha e depois no cabeçalho, e o mesmo dia conta como não posterior. Uma data que a regra não consegue analisar é reportada com a sua linha em vez de ser omitida. `LC-004` não lê nenhuma data real de embarque, e a exigência de apresentar dentro de um certo número de dias após o embarque não é verificada: o pacote declara que não obteve esse texto. |
+| `LC-005` nunca reporta nada. Está avariado? | `LC-005` não está avariado: a sua lista `values` vem vazia, ou seja, por configurar, e a regra reporta-se então a si mesma em `skipped` com esse motivo, em vez de passar em silêncio. Preencha `values` com a terminologia da sua instituição e ela assinalará toda a linha cujo valor de `discrepancy` não conste da lista. Verifica apenas que a marca seja uma que você reconheça; nunca julga se existe realmente uma discrepância. |
+| O cabeçalho não traz número do crédito, ou a moeda está escrita como `usd`. | `LC-006` reporta o cabeçalho quando `lcNo` ou `beneficiary` não são declarados, para que a apresentação possa ser ligada a um crédito concreto. `LC-007` reporta qualquer valor de `currency` que não sejam três letras maiúsculas (o padrão de origem do pacote), esteja a moeda no cabeçalho ou na linha; verifica apenas a forma, não se essa moeda é a correta para o crédito. |
+| O mesmo tipo de documento aparece em duas linhas. | `LC-008` reporta a linha posterior como duplicada da anterior, ignorando os espaços do valor. O achado precisa de confirmação humana: é comum um crédito levantar várias exigências sobre um mesmo tipo de documento, por isso distinga as linhas na coluna do número da cláusula em vez de apagar uma — ou desative a regra. |
+
+## Normas que segue
+
+| Documento | Número | Regras que o citam |
+|---|---|---|
+| 《跟单信用证统一惯例》（UCP600） | 国际商会第 600 号出版物（本次未取得条文） | LC-001, LC-002, LC-003, LC-004, LC-005, LC-006, LC-008 |
+| 《表示货币的代码》 | GB/T 12406—2022（表示货币的代码；2022-12-30 发布并实施；全部代替 GB/T 12406—2008（该版名称为「表示货币和资金的代码」）——注意旧版名称含"资金"；修改采用 ISO 4217:2015，非等同采用；条号本次未取得） | LC-007 |
 
 **Boundary:** this plugin checks a **信用证交单核对表** for the mechanical side of documentary compliance — that
 each term records the document type and the credit's requirement, that the presentation is recorded, that the

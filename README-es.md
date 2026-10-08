@@ -1,4 +1,24 @@
-# dsh-lc-doc-check
+# dsh-lc-doc-check — Completitud de la lista de presentación de documentos de un crédito documentario y coherencia interna de sus fechas
+
+`dsh-lc-doc-check` lee una lista de presentación de documentos de un crédito documentario —la cabecera del crédito más una fila por cláusula— y comprueba la completitud y la coherencia interna de esa lista: que cada cláusula registre el tipo de documento y la exigencia del crédito, que la presentación esté registrada, que la fecha de presentación no sea posterior al vencimiento, que la fecha límite de embarque no sea posterior al vencimiento, que la marca de discrepancia proceda del vocabulario que usted configure, que se declaren el número de crédito y el beneficiario, que la moneda se escriba como código de tres letras y que no se repita ningún tipo de documento.
+
+## Qué responde
+
+| Usted pregunta | Qué responde |
+|---|---|
+| Una cláusula deja vacíos el tipo de documento y la exigencia del crédito. ¿Se informa de eso? | Sí. `LC-001` informa de esa cláusula, porque toda cláusula que traiga la columna `docType` o `requirement` debe tener al menos una de las dos rellena. Comprueba que haya texto, no lo que la cláusula significa: no interpreta las condiciones del crédito, así que una exigencia mal escrita pasa. |
+| La exigencia está escrita, pero la columna de la presentación está vacía. | `LC-002` exige `presented` en toda cláusula que traiga la columna e informa de la fila en que está vacía. Comprueba que la presentación quede registrada, no lo que dice: no compara esa celda con la celda de la exigencia, porque compararlas obliga a leer las cláusulas y los documentos. |
+| ¿Qué fechas compara realmente y qué ocurre con una fecha que no se puede analizar? | Dos pares, y solo dos: `LC-003` compara `presentedAt` con `expiryAt`, y `LC-004` compara `latestShipment` con `expiryAt`; el vencimiento puede estar en la cabecera, porque el lector mira primero en la fila y luego en la cabecera, y el mismo día cuenta como no posterior. Una fecha que la regla no puede analizar se informa con su fila en lugar de omitirse. `LC-004` no lee ninguna fecha real de embarque, y la exigencia de presentar dentro de un cierto número de días tras el embarque no se comprueba: el paquete declara que no obtuvo ese texto. |
+| `LC-005` no informa nunca de nada. ¿Está averiado? | `LC-005` no está averiado: su lista `values` viene vacía, es decir, sin configurar, y entonces la regla se informa a sí misma en `skipped` con ese motivo en lugar de pasar en silencio. Rellene `values` con la terminología de su institución y señalará toda fila cuyo valor de `discrepancy` no esté en la lista. Solo comprueba que la marca sea una que usted reconozca; nunca juzga si existe realmente una discrepancia. |
+| La cabecera no trae número de crédito, o la moneda figura como `usd`. | `LC-006` informa de la cabecera cuando no se declaran `lcNo` o `beneficiary`, para que la presentación pueda ligarse a un crédito concreto. `LC-007` informa de todo valor de `currency` que no sean tres letras mayúsculas (el patrón por defecto del paquete), esté la moneda en la cabecera o en la fila; solo comprueba la forma, no si esa moneda es la correcta para el crédito. |
+| El mismo tipo de documento aparece en dos filas. | `LC-008` informa de la fila posterior como duplicada de la anterior, ignorando los espacios del valor. El hallazgo necesita confirmación humana: es habitual que un crédito plantee varias exigencias sobre un mismo tipo de documento, así que distinga las filas en la columna del número de cláusula en vez de borrar una, o desactive la regla. |
+
+## Normas que sigue
+
+| Documento | Número | Reglas que lo citan |
+|---|---|---|
+| 《跟单信用证统一惯例》（UCP600） | 国际商会第 600 号出版物（本次未取得条文） | LC-001, LC-002, LC-003, LC-004, LC-005, LC-006, LC-008 |
+| 《表示货币的代码》 | GB/T 12406—2022（表示货币的代码；2022-12-30 发布并实施；全部代替 GB/T 12406—2008（该版名称为「表示货币和资金的代码」）——注意旧版名称含"资金"；修改采用 ISO 4217:2015，非等同采用；条号本次未取得） | LC-007 |
 
 **Boundary:** this plugin checks a **信用证交单核对表** for the mechanical side of documentary compliance — that
 each term records the document type and the credit's requirement, that the presentation is recorded, that the

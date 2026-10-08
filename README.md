@@ -1,4 +1,24 @@
-# dsh-lc-doc-check
+# dsh-lc-doc-check — Letter-of-credit presentation checklist completeness and internal date consistency check
+
+`dsh-lc-doc-check` reads one letter-of-credit presentation checklist — the credit header plus one row per term — and checks that checklist's own completeness and internal consistency: that each term records the document type and the credit's requirement, that the presentation is recorded, that the presentation date is not later than the expiry, that the latest shipment date is not later than the expiry, that the discrepancy marker comes from the vocabulary you configure, that the credit number and beneficiary are declared, that the currency is written as a three-letter code, and that no document type is repeated.
+
+## What it answers
+
+| You ask | What it answers |
+|---|---|
+| One term leaves both the document type and the credit's requirement blank. Is that reported? | Yes. `LC-001` reports that term, because every term carrying the `docType` or `requirement` column must have at least one of the two filled. It checks that something is written, not what the term means: it does not interpret the credit's terms, so a requirement that is filled in but wrong passes. |
+| The requirement is written down, but the presentation column is empty. | `LC-002` requires `presented` on every term that carries the column and reports the row where it is blank. It checks that the presentation is recorded, not what it says — it does not compare that cell with the requirement cell, because comparing them means reading the terms and the documents. |
+| Which dates does it actually compare, and what happens to a date that will not parse? | Two pairs, and only two: `LC-003` compares `presentedAt` with `expiryAt`, and `LC-004` compares `latestShipment` with `expiryAt`; the expiry may sit in the header, because the reader looks in the row first and then in the header, and the same day counts as not later. A date neither rule can parse is reported with its row instead of being passed over. `LC-004` reads no actual shipment date, and the requirement to present within a number of days after shipment is not checked, because the pack states that it could not obtain that text. |
+| `LC-005` never reports anything. Is it broken? | `LC-005` is not broken: its `values` list ships empty, which means unconfigured, and the rule then reports itself in `skipped` with that reason rather than passing silently. Fill `values` with your institution's discrepancy wording and it reports every row whose `discrepancy` value is not on the list. It checks only that the marker is one you recognise; it never judges whether a discrepancy exists. |
+| The header carries no credit number, or the currency is written as `usd`. | `LC-006` reports the header when `lcNo` or `beneficiary` is not declared, so that a presentation can be tied to one credit. `LC-007` reports any `currency` value that is not three upper-case letters (the pack's default pattern), whether the currency sits in the header or on the row; it checks the shape only, not whether that currency is the right one for the credit. |
+| The same document type appears in two rows. | `LC-008` reports the later row as a duplicate of the earlier one, ignoring spaces in the value. The hit needs human confirmation: a credit often raises several requirements against one document type, so distinguish the rows in the term-number column instead of deleting one — or disable the rule. |
+
+## Standards it follows
+
+| Document | Number | Cited by rules |
+|---|---|---|
+| 《跟单信用证统一惯例》（UCP600） | 国际商会第 600 号出版物（本次未取得条文） | LC-001, LC-002, LC-003, LC-004, LC-005, LC-006, LC-008 |
+| 《表示货币的代码》 | GB/T 12406—2022（表示货币的代码；2022-12-30 发布并实施；全部代替 GB/T 12406—2008（该版名称为「表示货币和资金的代码」）——注意旧版名称含"资金"；修改采用 ISO 4217:2015，非等同采用；条号本次未取得） | LC-007 |
 
 **Boundary:** this plugin checks a **信用证交单核对表** for the mechanical side of documentary compliance — that
 each term records the document type and the credit's requirement, that the presentation is recorded, that the
