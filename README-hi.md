@@ -43,8 +43,7 @@ presentation is discrepant, whether a bank must pay, or whether the documents me
 ## Install
 
 ```sh
-pnpm pack
-dsh plugin --profile <name> add ./*.tgz
+dsh plugin --profile <name> add dsh-lc-doc-check
 dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
 ```
 
