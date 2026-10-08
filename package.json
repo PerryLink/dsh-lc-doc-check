@@ -1,6 +1,6 @@
 {
   "name": "dsh-lc-doc-check",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "信用证单据条款核对（按单据种类、份数、期限与不符点核对交单自洽，仅提示差异，不作出定性结论）",
   "type": "module",
   "main": "lib/index.mjs",
