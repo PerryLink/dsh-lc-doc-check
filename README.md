@@ -71,7 +71,6 @@ term — applies a versioned rule pack, and returns a report.
 | `LC-006` | the credit number and beneficiary are declared | warn | principle |
 | `LC-007` | the currency is a three-letter code | warn | principle |
 | `LC-008` | document types are unique | warn | principle |
-
 ## Install
 
 ```sh
