@@ -1,6 +1,14 @@
 # dsh-lc-doc-check — 信用证单据条款核对
 
+[![DSH Market](https://raw.githubusercontent.com/2BingLing/dsh-market/master/assets/readme/badge-listed-en.svg)](https://dsh.market/)
+
 `dsh-lc-doc-check` 读取一份信用证交单核对表——表头加每条条款一行——核对这份核对表自身的齐备与内部一致：每条条款是否写明单据种类与信用证要求、是否记录了提交情况、交单日期是否不晚于有效期、最迟装运日是否不晚于有效期、不符点标记是否取自你自己配置的取值清单、表头是否声明信用证号与受益人、币制是否写成三位字母代码、单据种类是否重复。
+
+## 实际输出长什么样
+
+![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-demo.png)
+
+本插件对自己 `LC-001` 测试夹具的**真实输出**，不是示意图。规则库不伪造引文，因此每条发现都会同时写明所引条款，以及该条款原文本次未取得。
 
 ## 它回答什么问题
 

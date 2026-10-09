@@ -1,6 +1,14 @@
 # dsh-lc-doc-check — Letter-of-credit presentation checklist completeness and internal date consistency check
 
+[![DSH Market](https://raw.githubusercontent.com/2BingLing/dsh-market/master/assets/readme/badge-listed-en.svg)](https://dsh.market/)
+
 `dsh-lc-doc-check` reads one letter-of-credit presentation checklist — the credit header plus one row per term — and checks that checklist's own completeness and internal consistency: that each term records the document type and the credit's requirement, that the presentation is recorded, that the presentation date is not later than the expiry, that the latest shipment date is not later than the expiry, that the discrepancy marker comes from the vocabulary you configure, that the credit number and beneficiary are declared, that the currency is written as a three-letter code, and that no document type is repeated.
+
+## What it looks like
+
+![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-demo.png)
+
+Real output from this plugin over its own `LC-001` test fixture — not a mock-up. The rule pack ships no invented quotations, so a finding names both the clause it applied and the fact that the clause text was not obtained.
 
 ## What it answers
 

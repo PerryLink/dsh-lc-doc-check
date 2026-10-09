@@ -1,6 +1,14 @@
 # dsh-lc-doc-check — Completitud de la lista de presentación de documentos de un crédito documentario y coherencia interna de sus fechas
 
+[![DSH Market](https://raw.githubusercontent.com/2BingLing/dsh-market/master/assets/readme/badge-listed-en.svg)](https://dsh.market/)
+
 `dsh-lc-doc-check` lee una lista de presentación de documentos de un crédito documentario —la cabecera del crédito más una fila por cláusula— y comprueba la completitud y la coherencia interna de esa lista: que cada cláusula registre el tipo de documento y la exigencia del crédito, que la presentación esté registrada, que la fecha de presentación no sea posterior al vencimiento, que la fecha límite de embarque no sea posterior al vencimiento, que la marca de discrepancia proceda del vocabulario que usted configure, que se declaren el número de crédito y el beneficiario, que la moneda se escriba como código de tres letras y que no se repita ningún tipo de documento.
+
+## Cómo se ve la salida
+
+![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-demo.png)
+
+Salida real de este plugin sobre su propio fixture de prueba `LC-001` — no es un montaje. El paquete de reglas no inventa citas, así que cada hallazgo nombra la cláusula aplicada y advierte que su texto no se obtuvo.
 
 ## Qué responde
 
