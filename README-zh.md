@@ -4,6 +4,13 @@
 
 `dsh-lc-doc-check` 读取一份信用证交单核对表——表头加每条条款一行——核对这份核对表自身的齐备与内部一致：每条条款是否写明单据种类与信用证要求、是否记录了提交情况、交单日期是否不晚于有效期、最迟装运日是否不晚于有效期、不符点标记是否取自你自己配置的取值清单、表头是否声明信用证号与受益人、币制是否写成三位字母代码、单据种类是否重复。
 
+## Install
+
+```sh
+dsh plugin --profile <name> add dsh-lc-doc-check
+dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
+```
+
 ## 实际输出长什么样
 
 ![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-hero.png)
@@ -69,13 +76,6 @@ presentation is discrepant, whether a bank must pay, or whether the documents me
 ## What it does
 
 规则表、字段说明与行为细节见 [README.md](README.md#what-it-does)（英文主版本）。本插件只列出材料与所引条款之间的字面差异，并对无法执行的检查在 `skipped` 中逐项说明。
-
-## Install
-
-```sh
-dsh plugin --profile <name> add dsh-lc-doc-check
-dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
-```
 
 ## Configuration
 

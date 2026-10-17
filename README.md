@@ -4,6 +4,13 @@
 
 `dsh-lc-doc-check` reads one letter-of-credit presentation checklist — the credit header plus one row per term — and checks that checklist's own completeness and internal consistency: that each term records the document type and the credit's requirement, that the presentation is recorded, that the presentation date is not later than the expiry, that the latest shipment date is not later than the expiry, that the discrepancy marker comes from the vocabulary you configure, that the credit number and beneficiary are declared, that the currency is written as a three-letter code, and that no document type is repeated.
 
+## Install
+
+```sh
+dsh plugin --profile <name> add dsh-lc-doc-check
+dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
+```
+
 ## What it looks like
 
 ![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-hero.png)
@@ -81,13 +88,6 @@ term — applies a versioned rule pack, and returns a report.
 | `LC-006` | the credit number and beneficiary are declared | warn | principle |
 | `LC-007` | the currency is a three-letter code | warn | principle |
 | `LC-008` | document types are unique | warn | principle |
-## Install
-
-```sh
-dsh plugin --profile <name> add dsh-lc-doc-check
-dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
-```
-
 ## Configuration
 
 | Key | Type | Default | Description |

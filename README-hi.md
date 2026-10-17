@@ -4,6 +4,13 @@
 
 `dsh-lc-doc-check` साख-पत्र (letter of credit) की एक प्रस्तुति सूची पढ़ता है — क्रेडिट हेडर और प्रत्येक शर्त की एक पंक्ति — और उसी सूची की पूर्णता तथा आंतरिक संगति जाँचता है: क्या प्रत्येक शर्त में दस्तावेज़ का प्रकार और क्रेडिट की अपेक्षा दर्ज है, क्या प्रस्तुति दर्ज है, क्या प्रस्तुति की तिथि समाप्ति से बाद की नहीं है, क्या अंतिम नौभरण तिथि समाप्ति से बाद की नहीं है, क्या असंगति का चिह्न आपकी निर्धारित शब्दावली से लिया गया है, क्या क्रेडिट क्रमांक और लाभार्थी घोषित हैं, क्या मुद्रा तीन अक्षरों के कोड में लिखी है, और क्या कोई दस्तावेज़ प्रकार दोहराया नहीं गया।
 
+## Install
+
+```sh
+dsh plugin --profile <name> add dsh-lc-doc-check
+dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
+```
+
 ## आउटपुट कैसा दिखता है
 
 ![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-hero.png)
@@ -69,13 +76,6 @@ presentation is discrepant, whether a bank must pay, or whether the documents me
 ## What it does
 
 नियम-सूची, फ़ील्ड और विस्तृत व्यवहार [README.md](README.md#what-it-does) (अंग्रेज़ी मुख्य संस्करण) में हैं। यह प्लगइन केवल उद्धृत धाराओं के सामने शाब्दिक अंतर सूचीबद्ध करता है और हर न चल पाई जाँच को `skipped` में बताता है।
-
-## Install
-
-```sh
-dsh plugin --profile <name> add dsh-lc-doc-check
-dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
-```
 
 ## Configuration
 

@@ -4,6 +4,13 @@
 
 `dsh-lc-doc-check` lê uma lista de apresentação de documentos de um crédito documentário —o cabeçalho do crédito mais uma linha por cláusula— e verifica a completude e a coerência interna dessa lista: se cada cláusula regista o tipo de documento e a exigência do crédito, se a apresentação está registada, se a data de apresentação não é posterior ao vencimento, se a data-limite de embarque não é posterior ao vencimento, se a marca de discrepância vem do vocabulário que você configura, se o número do crédito e o beneficiário são declarados, se a moeda está escrita como código de três letras e se não há tipos de documento repetidos.
 
+## Install
+
+```sh
+dsh plugin --profile <name> add dsh-lc-doc-check
+dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
+```
+
 ## Como é a saída
 
 ![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-hero.png)
@@ -69,13 +76,6 @@ presentation is discrepant, whether a bank must pay, or whether the documents me
 ## What it does
 
 A tabela de regras, os campos e o comportamento detalhado estão em [README.md](README.md#what-it-does) (versão principal em inglês). O plugin apenas lista divergências literais frente às cláusulas citadas e indica em `skipped` cada verificação que não pôde ser executada.
-
-## Install
-
-```sh
-dsh plugin --profile <name> add dsh-lc-doc-check
-dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
-```
 
 ## Configuration
 
