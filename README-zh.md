@@ -39,12 +39,7 @@ dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
 | 《跟单信用证统一惯例》（UCP600） | 国际商会第 600 号出版物（本次未取得条文） | LC-001, LC-002, LC-003, LC-004, LC-005, LC-006, LC-008 |
 | 《表示货币的代码》 | GB/T 12406—2022（表示货币的代码；2022-12-30 发布并实施；全部代替 GB/T 12406—2008（该版名称为「表示货币和资金的代码」）——注意旧版名称含"资金"；修改采用 ISO 4217:2015，非等同采用；条号本次未取得） | LC-007 |
 
-**Boundary:** this plugin checks a **信用证交单核对表** for the mechanical side of documentary compliance — that
-each term records the document type and the credit's requirement, that the presentation is recorded, that the
-presentation date is not later than the expiry, that the latest shipment date is not later than the expiry,
-that the discrepancy marker comes from your vocabulary, that the credit number and beneficiary are declared,
-that the currency follows its format, and that document types are unique. It does **not** decide whether a
-presentation is discrepant, whether a bank must pay, or whether the documents meet the credit's terms.
+**边界（中文译文，以英文原文为准）：** 本插件核对一份**信用证交单核对表**所涉及单据合规的机械层面——每条条款是否记录单据种类与信用证要求，提交情况是否记录，交单日期是否不晚于有效期，最迟装运日期是否不晚于有效期，不符点标记是否取自你配置的取值口径，信用证号与受益人是否声明，币制是否符合其形式，以及单据种类是否唯一。它**不**判定交单是否构成不符点、银行是否必须付款，也不判定单据是否符合信用证条款。
 
 > ### ⚠️ It reads a checklist, not the credit and not the documents
 >
