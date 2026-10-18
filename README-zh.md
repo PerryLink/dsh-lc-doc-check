@@ -41,25 +41,15 @@ dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
 
 **边界（中文译文，以英文原文为准）：** 本插件核对一份**信用证交单核对表**所涉及单据合规的机械层面——每条条款是否记录单据种类与信用证要求，提交情况是否记录，交单日期是否不晚于有效期，最迟装运日期是否不晚于有效期，不符点标记是否取自你配置的取值口径，信用证号与受益人是否声明，币制是否符合其形式，以及单据种类是否唯一。它**不**判定交单是否构成不符点、银行是否必须付款，也不判定单据是否符合信用证条款。
 
-> ### ⚠️ It reads a checklist, not the credit and not the documents
+> ### ⚠️ 它读的是一份核对表，不是信用证，也不是单据（以英文原文为准）
 >
-> **The plugin does not interpret credit terms.** It checks that the requirement column and the presentation
-> column are both filled — it does **not** compare them, because comparing them means reading the terms and the
-> documents, which is the bank's examination under UCP 600 and ISBP. So a term that the documents plainly fail
-> passes this plugin as long as both columns carry text.
+> **本插件不解释信用证条款。** 它核对「信用证要求」列与「提交情况」列都已填写——它**不**比较这两列，因为比较它们意味着阅读条款和单据，而那是银行依据 UCP 600 和 ISBP 进行的审单。因此，只要两列都有文字，一项单据明显不符合的条款也能通过本插件。
 >
-> **The 不符点 column is your declaration.** The plugin checks only that its value is one you recognise; it
-> **never judges whether a discrepancy exists**. That judgement belongs to the bank.
+> **不符点列是你的声明。** 本插件只核对其取值是否在你认可的词表内；它**从不判断是否存在不符点**。那项判断属于银行。
 >
-> Two date checks are included, and only two: presentation ≤ expiry, and latest shipment ≤ expiry. **The
-> UCP 600 rule requiring presentation within a number of days after shipment is not checked**, because the
-> rule pack could not obtain the text and the register usually has no separate actual-shipment column. The
-> note on that rule says so, and explains how to add the check if your register has the column.
+> 包含的日期检查只有两项：交单日 ≤ 到期日，以及最迟装运日 ≤ 到期日。**UCP 600 中要求在装运后若干天内交单的规则不在核对之列**，因为规则库未能取得该条文原文，而且台账通常没有单独的实际装运日期列。该规则的说明写明了这一点，并解释了如果你的台账有这一列，应如何加入该项检查。
 >
-> **Every `excerpt` in the rule pack says, in so many words, that the clause text was not obtained** — the
-> ICC's UCP 600 and ISBP are publications the verification pass could not retrieve verbatim. The pack states
-> the gap in the `excerpt` field itself and keeps every rule at `warn` or `info`. **When the texts are in
-> hand, replace each `excerpt` with the real clause and raise `kind` to `direct`.**
+> **规则库中的每一个 `excerpt` 都明文写着：条款原文本次未取得**——ICC 的 UCP 600 与 ISBP 是核验环节无法逐字取得的出版物。规则库在 `excerpt` 字段本身写明这一缺口，并把每条规则保持在 `warn` 或 `info`。**待取得原文后，请把每个 `excerpt` 换成真实条款，并把 `kind` 提到 `direct`。**
 
 ## Compatibility
 
