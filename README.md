@@ -28,6 +28,34 @@ dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
 
 The table below is the example set: the first row is the detailed walkthrough, the remaining rows are short cases.
 
+#### Detailed output
+
+**Tool** `lc_doc_check`
+
+**Input**
+
+~~~json
+{"lcNo":"LC2026-0018","rows":[{"单据种类":"","信用证要求":"","提交情况":"已提交一式三份，已注明信用证号与合同号"}]}
+~~~
+ 
+**Output**
+
+~~~json
+{
+  "id": "dsh-lc-doc-check.LC-001.de09b5a6",
+  "ruleId": "LC-001",
+  "severity": "warn",
+  "locator": {
+    "row": 1,
+    "field": "docType"
+  },
+  "found": "第 1 行 docType、requirement 都为空",
+  "expected": "docType、requirement 至少应填写一项"
+}
+~~~
+
+*Observed from `dsh-lc-doc-check/tests/fixtures/LC-001/LC-001-unsafe.json`*
+
 | You ask | What it answers |
 |---|---|
 | One term leaves both the document type and the credit's requirement blank. Is that reported? | Yes. `LC-001` reports that term, because every term carrying the `docType` or `requirement` column must have at least one of the two filled. It checks that something is written, not what the term means: it does not interpret the credit's terms, so a requirement that is filled in but wrong passes. |

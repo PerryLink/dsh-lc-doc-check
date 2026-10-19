@@ -30,6 +30,34 @@ dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
 下表是示例集：第一行是详细走查，其余行是简短案例。
 
 
+#### 详细输出
+
+**工具** `lc_doc_check`
+
+**输入**
+
+~~~json
+{"lcNo":"LC2026-0018","rows":[{"单据种类":"","信用证要求":"","提交情况":"已提交一式三份，已注明信用证号与合同号"}]}
+~~~
+ 
+**输出**
+
+~~~json
+{
+  "id": "dsh-lc-doc-check.LC-001.de09b5a6",
+  "ruleId": "LC-001",
+  "severity": "warn",
+  "locator": {
+    "row": 1,
+    "field": "docType"
+  },
+  "found": "第 1 行 docType、requirement 都为空",
+  "expected": "docType、requirement 至少应填写一项"
+}
+~~~
+
+*来源 `dsh-lc-doc-check/tests/fixtures/LC-001/LC-001-unsafe.json`*
+
 | 你会问 | 它怎么答 |
 |---|---|
 | 某条条款的单据种类与信用证要求都没填，会被报出吗？ | 会。`LC-001` 会报出该条：凡是带了 `docType` 或 `requirement` 栏的条款，都要求两栏至少填了一栏。它只核对是否写了内容，不解读条款含义——它不解读信用证条款，所以填了但填错的照样通过。 |

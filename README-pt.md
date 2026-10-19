@@ -30,6 +30,34 @@ Saída real deste plugin sobre o seu próprio fixture de teste `LC-001` — não
 A tabela abaixo é o conjunto de exemplos: a primeira linha é o caso detalhado e as demais são casos curtos.
 
 
+#### Saída detalhada
+
+**Ferramenta** `lc_doc_check`
+
+**Entrada**
+
+~~~json
+{"lcNo":"LC2026-0018","rows":[{"单据种类":"","信用证要求":"","提交情况":"已提交一式三份，已注明信用证号与合同号"}]}
+~~~
+ 
+**Saída**
+
+~~~json
+{
+  "id": "dsh-lc-doc-check.LC-001.de09b5a6",
+  "ruleId": "LC-001",
+  "severity": "warn",
+  "locator": {
+    "row": 1,
+    "field": "docType"
+  },
+  "found": "第 1 行 docType、requirement 都为空",
+  "expected": "docType、requirement 至少应填写一项"
+}
+~~~
+
+*Observado em `dsh-lc-doc-check/tests/fixtures/LC-001/LC-001-unsafe.json`*
+
 | Você pergunta | O que ele responde |
 |---|---|
 | Uma cláusula deixa vazios o tipo de documento e a exigência do crédito. Isso é reportado? | Sim. `LC-001` reporta essa cláusula, porque toda cláusula que traga a coluna `docType` ou `requirement` tem de ter pelo menos uma das duas preenchida. Verifica que haja texto, não o que a cláusula significa: não interpreta as condições do crédito, por isso uma exigência mal escrita passa. |
