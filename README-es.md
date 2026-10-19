@@ -15,13 +15,19 @@ dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
 
 ## Cómo se ve la salida
 
-![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-hero.png)
+![Diagrama de flujo de dsh-lc-doc-check: documento → reglas → hallazgos.](docs/assets/dsh-lc-doc-check-flow.svg)
 
-![Animated terminal demo of dsh-lc-doc-check](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-demo.gif)
+*Resumen del flujo: documento → reglas → hallazgos. Los ejemplos siguientes usan la superficie de comandos real.*
+
 
 Salida real de este plugin sobre su propio fixture de prueba `LC-001` — no es un montaje. El paquete de reglas no inventa citas, así que cada hallazgo nombra la cláusula aplicada y advierte que su texto no se obtuvo.
 
 ## Qué responde
+
+### Ejemplos
+
+La tabla siguiente es el conjunto de ejemplos: la primera fila es el caso detallado y las demás son casos breves.
+
 
 | Usted pregunta | Qué responde |
 |---|---|

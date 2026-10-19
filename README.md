@@ -15,13 +15,17 @@ dsh --profile <name> --dump-config | grep 'dsh-lc-doc-check'
 
 ## What it looks like
 
-![Terminal demo of dsh-lc-doc-check: real output over its LC-001 fixture](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-hero.png)
+![Workflow diagram for dsh-lc-doc-check: document → rule pack → findings.](docs/assets/dsh-lc-doc-check-flow.svg)
 
-![Animated terminal demo of dsh-lc-doc-check](https://raw.githubusercontent.com/PerryLink/dsh-lc-doc-check/main/docs/assets/dsh-lc-doc-check-demo.gif)
+*Workflow overview: document → rule pack → findings. The examples below use the real command surface.*
 
-Real output from this plugin over its own `LC-001` test fixture — not a mock-up. The rule pack ships no invented quotations, so a finding names both the clause it applied and the fact that the clause text was not obtained.
+
 
 ## What it answers
+
+### Examples
+
+The table below is the example set: the first row is the detailed walkthrough, the remaining rows are short cases.
 
 | You ask | What it answers |
 |---|---|
