@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-flow-dark.svg">
-  <img src="docs/assets/dsh-lc-doc-check-flow-light.svg" width="100%" alt="Fluxo do dsh-lc-doc-check: lista de apresentação de um crédito documentário (JSON/YAML) → pacote de regras (LC-001 a LC-008) → achados por linha e verificações em skipped; somente leitura, sem rede, sem chamada ao modelo, sem alterar o original">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-hero-en-dark.webp">
+  <img src="docs/assets/dsh-lc-doc-check-hero-en-light.webp" width="100%" alt="Banner do dsh-lc-doc-check: à esquerda, o nome do complemento, um título em duas linhas e as linhas de valor das oito regras; à direita, uma lista de apresentação —cabeçalho lcNo LC2026-0018, beneficiário, USD e expiryAt 2026-04-10, linha 1 com as células de tipo de documento e exigência vazias (LC-001), apresentação 2026-03-20 e embarque 2026-03-15, ambas não posteriores ao vencimento 2026-04-10—; abaixo, a execução real de amostra: 0 error / 1 warn / 2 skipped">
 </picture>
 
 # dsh-lc-doc-check
@@ -41,6 +41,11 @@ dsh plugin --profile <name> add dsh-lc-doc-check
 Cobre apenas o lado mecânico: não interpreta as cláusulas do crédito, não compara a coluna da exigência com a da apresentação, não decide se uma apresentação é discrepante nem se um banco deve pagar, e não substitui o revisor. Toda verificação que não pôde ser executada é listada em `skipped`; uma lista de problemas vazia nunca é lida como «não há nada errado».
 
 Depois de instalado, chame `lc_doc_check` pelo chat; para a verificação em si não é preciso escrever comandos.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-lc-doc-check-flow-v5-light.svg" width="100%" alt="Estrutura do dsh-lc-doc-check: três escopos de leitura sobre uma mesma lista de apresentação — o cabeçalho (lcNo, beneficiário, currency, expiryAt; LC-006 e LC-007), a passagem por linha (docType, requirement, presented, discrepancy; LC-001, LC-002 e LC-005, além de LC-003 e LC-004 comparando a data de apresentação e a data-limite de embarque com o expiryAt compartilhado) e a passagem entre linhas (LC-008, docType único); à direita, as saídas issues[] e skipped[]: a amostra real dá um warn na linha 1 docType e duas verificações omitidas (LC-005 e LC-008) com o motivo; uma lista issues vazia não é aprovação">
+</picture>
 
 ## Instalação em três passos
 
@@ -357,7 +362,7 @@ node ../scripts/sync-shared.mjs dsh-lc-doc-check   # atualizar src/shared a part
 pnpm pack                        # o tarball publicado
 ```
 
-`lib/` é um artefato de compilação (gitignored) e viaja dentro do pacote npm; execute `pnpm run build` antes do `samples/quickstart` do repositório. As imagens do README são geradas por [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Python + Pillow, com uma sonda de fontes CJK que aborta se não encontrar nenhuma); emite os SVG de fluxo claro e escuro e pode ser executado de novo:
+`lib/` é um artefato de compilação (gitignored) e viaja dentro do pacote npm; execute `pnpm run build` antes do `samples/quickstart` do repositório. As imagens do README são geradas por [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) (Python + Pillow, com uma sonda de fontes CJK que aborta se não encontrar nenhuma); emite quatro hero WebP (zh/en × claro/escuro) e os dois SVG de fluxo de 1100x660, e pode ser executado de novo:
 
 ```sh
 python scripts/gen-readme-assets.py

@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-flow-dark.svg">
-  <img src="docs/assets/dsh-lc-doc-check-flow-light.svg" width="100%" alt="dsh-lc-doc-check 流程：信用证交单核对表（JSON/YAML）→ 规则包（LC-001 至 LC-008）→ 逐条差异与 skipped 说明；只读、不联网、不调用模型、不改原件">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-hero-zh-dark.webp">
+  <img src="docs/assets/dsh-lc-doc-check-hero-zh-light.webp" width="100%" alt="dsh-lc-doc-check 横幅：左侧是插件名、两行标题「信用证交单 / 逐条核对」与「八条规则只读一份交单核对表」等价值说明；右侧是一份信用证交单核对表——表头 lcNo LC2026-0018、受益人、USD 与 expiryAt 2026-04-10，第 1 行的单据种类与信用证要求两栏为空（LC-001），交单日 2026-03-20 与最迟装运日 2026-03-15 各自不晚于有效期 2026-04-10；底部是真实样例的 0 error / 1 warn / 2 skipped">
 </picture>
 
 # dsh-lc-doc-check
@@ -41,6 +41,11 @@ dsh plugin --profile <name> add dsh-lc-doc-check
 它只做机械核对：不解读信用证条款，不把「信用证要求」栏与「提交情况」栏做实质比对，也不判定交单是否构成不符点、银行是否应当付款，也不替代审核人。无法执行的检查会逐项列进 `skipped`，空的问题列表不会被读成「没问题」。
 
 装好后在对话里调用 `lc_doc_check`，不用自己写命令行。
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-lc-doc-check-flow-v5-light.svg" width="100%" alt="dsh-lc-doc-check 结构图：同一份交单核对表的三条读取泳道——表头（lcNo、受益人、currency、expiryAt；LC-006 与 LC-007）、逐行（单据种类、信用证要求、提交情况、不符点；LC-001、LC-002、LC-005，并以 LC-003 / LC-004 比较交单日与最迟装运日，二者共用表头或行内的 expiryAt）、跨行（LC-008 单据种类唯一）；右侧是报告出口 issues[] 与 skipped[]：真实样例为第 1 行 docType 的一条 warn 与 LC-005、LC-008 两条 skipped，未执行的检查逐条写明原因，空 issues 不等于通过">
+</picture>
 
 ## 三步上手
 
@@ -357,7 +362,7 @@ node ../scripts/sync-shared.mjs dsh-lc-doc-check   # 从 ../_shared 刷新 src/s
 pnpm pack                        # 发布 tarball
 ```
 
-`lib/` 是构建产物（gitignored），npm 包内已包含；仓库内跑 `samples/quickstart` 前先 `pnpm run build`。配图由 [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) 程序化生成（Python + Pillow，CJK 字体探测缺失即报错），只产出深浅两版流程图 SVG，可重复执行：
+`lib/` 是构建产物（gitignored），npm 包内已包含；仓库内跑 `samples/quickstart` 前先 `pnpm run build`。配图由 [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) 程序化生成（Python + Pillow，CJK 字体探测缺失即报错）：四张 hero WebP（中英 × 深浅）与两版 1100×660 结构图 SVG，可重复执行：
 
 ```sh
 python scripts/gen-readme-assets.py

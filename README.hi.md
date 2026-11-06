@@ -1,8 +1,8 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-flow-dark.svg">
-  <img src="docs/assets/dsh-lc-doc-check-flow-light.svg" width="100%" alt="dsh-lc-doc-check प्रवाह: साख-पत्र प्रस्तुति सूची (JSON/YAML) → नियम-पैक (LC-001 से LC-008) → पंक्ति-वार निष्कर्ष और skipped जाँचें; केवल पढ़ता है, नेटवर्क नहीं, मॉडल कॉल नहीं, मूल फ़ाइल अपरिवर्तित">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-hero-en-dark.webp">
+  <img src="docs/assets/dsh-lc-doc-check-hero-en-light.webp" width="100%" alt="dsh-lc-doc-check बैनर: बाएँ, प्लगइन का नाम, दो पंक्तियों का शीर्षक और आठ नियमों वाली जाँच की मूल्य-पंक्तियाँ; दाएँ, एक प्रस्तुति सूची — हेडर lcNo LC2026-0018, लाभार्थी, USD और expiryAt 2026-04-10, पंक्ति 1 में दस्तावेज़-प्रकार और क्रेडिट-अपेक्षा के खाने खाली (LC-001), प्रस्तुति 2026-03-20 और अंतिम नौभरण 2026-03-15, दोनों समाप्ति 2026-04-10 से बाद की नहीं; नीचे वास्तविक नमूना रन: 0 error / 1 warn / 2 skipped">
 </picture>
 
 # dsh-lc-doc-check
@@ -41,6 +41,11 @@ dsh plugin --profile <name> add dsh-lc-doc-check
 यह केवल यांत्रिक पक्ष देखता है: क्रेडिट की शर्तें नहीं पढ़ता, अपेक्षा वाले कॉलम की तुलना प्रस्तुति वाले कॉलम से नहीं करता, यह भी तय नहीं करता कि कोई प्रस्तुति असंगत है या बैंक को भुगतान करना चाहिए, और समीक्षक का विकल्प नहीं है। जो जाँच नहीं चल सकी, वह `skipped` में एक-एक करके दर्ज होती है; खाली समस्या-सूची को «कुछ भी गलत नहीं» नहीं पढ़ा जाता।
 
 इंस्टॉल के बाद चैट से `lc_doc_check` कॉल करें; जाँच के लिए स्वयं कमांड लिखने की आवश्यकता नहीं है।
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/dsh-lc-doc-check-flow-v5-dark.svg">
+  <img src="docs/assets/dsh-lc-doc-check-flow-v5-light.svg" width="100%" alt="dsh-lc-doc-check संरचना: एक ही प्रस्तुति सूची पर तीन पठन-क्षेत्र — हेडर (lcNo, लाभार्थी, currency, expiryAt; LC-006 और LC-007), प्रति-पंक्ति पास (docType, requirement, presented, discrepancy; LC-001, LC-002 और LC-005, तथा LC-003 और LC-004 जो प्रस्तुति तिथि और अंतिम नौभरण तिथि की तुलना साझा expiryAt से करते हैं) और पंक्ति-पार पास (LC-008, अद्वितीय docType); दाईं ओर रिपोर्ट के निकास issues[] और skipped[]: वास्तविक नमूना पंक्ति 1 docType पर एक warn और दो छूटी जाँचें (LC-005 और LC-008) उनके कारण के साथ देता है; खाली issues सूची स्वीकृति नहीं है">
+</picture>
 
 ## तीन चरणों में शुरुआत
 
@@ -357,7 +362,7 @@ node ../scripts/sync-shared.mjs dsh-lc-doc-check   # ../_shared से src/share
 pnpm pack                        # प्रकाशित tarball
 ```
 
-`lib/` बिल्ड आर्टिफ़ैक्ट है (gitignored) और npm पैकेज के भीतर जाता है; रेपो के `samples/quickstart` से पहले `pnpm run build` चलाएँ। README की छवियाँ [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) बनाता है (Python + Pillow, CJK फ़ॉन्ट जाँच के साथ, फ़ॉन्ट न मिलने पर त्रुटि); यह हल्के और गहरे रंग के फ़्लो SVG देता है और दोबारा चलाया जा सकता है:
+`lib/` बिल्ड आर्टिफ़ैक्ट है (gitignored) और npm पैकेज के भीतर जाता है; रेपो के `samples/quickstart` से पहले `pnpm run build` चलाएँ। README की छवियाँ [`scripts/gen-readme-assets.py`](scripts/gen-readme-assets.py) बनाता है (Python + Pillow, CJK फ़ॉन्ट जाँच के साथ, फ़ॉन्ट न मिलने पर त्रुटि); यह चार hero WebP (zh/en × हल्का/गहरा) और दो 1100x660 फ़्लो SVG देता है, और दोबारा चलाया जा सकता है:
 
 ```sh
 python scripts/gen-readme-assets.py
