@@ -47,6 +47,11 @@ dsh plugin --profile <name> add dsh-lc-doc-check
   <img src="docs/assets/dsh-lc-doc-check-flow-v5-light.svg" width="100%" alt="dsh-lc-doc-check संरचना: एक ही प्रस्तुति सूची पर तीन पठन-क्षेत्र — हेडर (lcNo, लाभार्थी, currency, expiryAt; LC-006 और LC-007), प्रति-पंक्ति पास (docType, requirement, presented, discrepancy; LC-001, LC-002 और LC-005, तथा LC-003 और LC-004 जो प्रस्तुति तिथि और अंतिम नौभरण तिथि की तुलना साझा expiryAt से करते हैं) और पंक्ति-पार पास (LC-008, अद्वितीय docType); दाईं ओर रिपोर्ट के निकास issues[] और skipped[]: वास्तविक नमूना पंक्ति 1 docType पर एक warn और दो छूटी जाँचें (LC-005 और LC-008) उनके कारण के साथ देता है; खाली issues सूची स्वीकृति नहीं है">
 </picture>
 
+![dsh-lc-doc-check का असली टर्मिनल रन](docs/assets/dsh-lc-doc-check-demo.gif)
+
+*इस रिपॉज़िटरी में दर्ज असली रन का एनिमेटेड रीप्ले।*
+
+
 ## तीन चरणों में शुरुआत
 
 1. **इंस्टॉल** (एक चैनल चुनें):

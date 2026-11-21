@@ -137,6 +137,10 @@ Search "Customs Compliance Suite" in WorkBuddy / Coze (this check is one part of
 
 ### Examples
 
+![dsh-lc-doc-check: real terminal run](docs/assets/dsh-lc-doc-check-demo.gif)
+
+*Animated replay of a real run recorded in this repository.*
+
 The table below covers the common questions; the detailed output follows it.
 
 | You ask | What it answers |

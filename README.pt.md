@@ -47,6 +47,11 @@ Depois de instalado, chame `lc_doc_check` pelo chat; para a verificação em si 
   <img src="docs/assets/dsh-lc-doc-check-flow-v5-light.svg" width="100%" alt="Estrutura do dsh-lc-doc-check: três escopos de leitura sobre uma mesma lista de apresentação — o cabeçalho (lcNo, beneficiário, currency, expiryAt; LC-006 e LC-007), a passagem por linha (docType, requirement, presented, discrepancy; LC-001, LC-002 e LC-005, além de LC-003 e LC-004 comparando a data de apresentação e a data-limite de embarque com o expiryAt compartilhado) e a passagem entre linhas (LC-008, docType único); à direita, as saídas issues[] e skipped[]: a amostra real dá um warn na linha 1 docType e duas verificações omitidas (LC-005 e LC-008) com o motivo; uma lista issues vazia não é aprovação">
 </picture>
 
+![dsh-lc-doc-check: execução real de terminal](docs/assets/dsh-lc-doc-check-demo.gif)
+
+*Repetição animada de uma execução real registrada neste repositório.*
+
+
 ## Instalação em três passos
 
 1. **Instalar** (escolha um canal):
