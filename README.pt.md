@@ -11,6 +11,8 @@
 
 Um verificador de host puro para examinadores de créditos documentários: lê o cabeçalho do crédito mais uma linha por cláusula, aplica um pacote de regras versionado à completude e à coerência interna de datas dessa lista e apenas enumera diferenças — sem parecer de conformidade nem atribuição de responsabilidade.
 
+Última verificação: DeepSeek Harness `dsh-v0.2.3-alpha.1` (2026-11-22).
+
 [Instalar](#instalação-em-três-passos) · [Configuração](#configuração) · [FAQ](#faq) · [简体中文](README.md) · [English](README.en.md) · [Español](README.es.md) · [Português](README.pt.md) · [हिन्दी](README.hi.md)
 
 [![License](https://img.shields.io/badge/license-Apache--2.0-3366CC?style=flat-square&labelColor=2B3245)](LICENSE)
@@ -50,7 +52,6 @@ Depois de instalado, chame `lc_doc_check` pelo chat; para a verificação em si 
 ![dsh-lc-doc-check: execução real de terminal](docs/assets/dsh-lc-doc-check-demo.gif)
 
 *Repetição animada de uma execução real registrada neste repositório.*
-
 
 ## Instalação em três passos
 
