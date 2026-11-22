@@ -7,6 +7,8 @@
 
 # dsh-lc-doc-check
 
+Current version `0.2.14`.
+
 **Turn one letter-of-credit presentation checklist into a row-by-row list of what is missing, where, and what to fix.**
 
 A pure host-side checker for letter-of-credit examiners: it reads the credit header plus one row per term, runs a versioned rule pack over the checklist's completeness and internal date consistency, and lists differences only — no compliance verdict, no liability finding.
